@@ -13,7 +13,7 @@ import {
   FONTSIZE_L,
   FONTSIZE_M,
   LINE_HEIGHT_M,
-} from '@/style/variables'
+} from '@/variables'
 import styled from 'styled-components'
 
 export interface TextFieldProps
@@ -24,15 +24,15 @@ export interface TextFieldProps
 }
 
 export const TextField = forwardRef<ElementRef<'input'>, TextFieldProps>(
-  ({ className, classNameWrapper, disabled, errorMessage, label, ...rest }, ref): JSX.Element => {
+  ({ className, classNameWrapper, disabled, errorMessage, label, ...rest }, ref) => {
     return (
-      <Wrapper
-        className={`${classNameWrapper} ${disabled ? 'disabled' : ''} ${
-          errorMessage ? 'error' : ''
-        }`}
-      >
+      <Wrapper className={classNameWrapper ?? ''}>
         {label && <Label className={disabled ? 'disabled' : ''}>{label}</Label>}
-        <Input className={className} disabled={disabled} {...rest} ref={ref} />
+        {!errorMessage ? (
+          <Input disabled={disabled} {...rest} ref={ref} />
+        ) : (
+          <InputError disabled={disabled} {...rest} ref={ref} />
+        )}
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       </Wrapper>
     )
@@ -72,7 +72,9 @@ const Input = styled.input`
     color: ${COLOR_GRAY};
   }
 `
-
+const InputError = styled(Input)`
+  border: 1px solid ${COLOR_RED};
+`
 const ErrorMessage = styled.div`
   font-size: ${FONTSIZE_M};
   color: ${COLOR_RED};
