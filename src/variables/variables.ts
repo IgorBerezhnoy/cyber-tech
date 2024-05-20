@@ -12,7 +12,7 @@ export const FONTSIZE_S = `12px`
 export const FONTSIZE_M = `14px`
 export const FONTSIZE_L = `16px`
 export const FONTSIZE_XL = `18px`
-export const FONTSIZE_XXL = `24px`
+export const FONTSIZE_XXL = `28px`
 export const FONTSIZE_XXXL = `32px`
 export const FONTSIZE_XXXXL = `48px`
 
