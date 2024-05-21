@@ -3,7 +3,7 @@ import React, { DetailedHTMLProps, ElementRef, InputHTMLAttributes, forwardRef }
 import {
   COLOR_BLACK,
   COLOR_GRAY,
-  COLOR_GRAY_LIGHT,
+  COLOR_GRAY_LIGHT_SECOND,
   COLOR_MAIN,
   COLOR_RED,
   COLOR_WHITE,
@@ -16,20 +16,19 @@ import {
 } from '@/variables'
 import styled from 'styled-components'
 
-export interface TextFieldProps
-  extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+type TextFieldProps = {
   classNameWrapper?: string
   errorMessage?: string
   label?: React.ReactNode
-}
+} & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 export const TextField = forwardRef<ElementRef<'input'>, TextFieldProps>(
   ({ className, classNameWrapper, disabled, errorMessage, label, ...rest }, ref) => {
     return (
       <Wrapper className={classNameWrapper ?? ''}>
-        {label && <Label className={disabled ? 'disabled' : ''}>{label}</Label>}
+        {label && <Label htmlFor={rest.id}>{label}</Label>}
         {!errorMessage ? (
-          <Input disabled={disabled} {...rest} ref={ref} />
+          <Input disabled={disabled} {...rest} id={rest.id} ref={ref} />
         ) : (
           <InputError disabled={disabled} {...rest} ref={ref} />
         )}
@@ -61,7 +60,7 @@ const Input = styled.input`
   font-family: ${FONT_FAMILY};
   font-weight: ${FONT_WEIGHT_NORMAL};
   color: ${COLOR_BLACK};
-  background: ${COLOR_GRAY_LIGHT};
+  background: ${COLOR_GRAY_LIGHT_SECOND};
 
   &:focus-visible {
     background: ${COLOR_WHITE};

@@ -1,14 +1,18 @@
+import { Ref, forwardRef, memo } from 'react'
+
 export type IconPropsType = {
   color?: string
   height?: string
   width?: string
 }
 
-export const CheckMarkIcon = (props: IconPropsType) => {
+export const SvgComponent = (props: IconPropsType, ref: Ref<SVGSVGElement>) => {
   const { color = 'white', height = '12', width = '16' } = props
 
   return (
     <svg
+      ref={ref}
+      {...props}
       fill={color}
       height={height}
       viewBox={'0 -2 16 16'}
@@ -25,3 +29,6 @@ export const CheckMarkIcon = (props: IconPropsType) => {
     </svg>
   )
 }
+const ForwardRef = forwardRef(SvgComponent)
+
+export default memo(ForwardRef)

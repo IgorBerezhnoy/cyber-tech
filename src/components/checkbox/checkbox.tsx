@@ -1,22 +1,20 @@
 import { ElementRef, forwardRef } from 'react'
 
-import { CheckMarkIcon } from '@/assets/icons/checkMarkIcon'
-import { COLOR_MAIN, FONT_WEIGHT_MEDIUM } from '@/variables'
+import CheckMarkIcon from '@/assets/icons/checkMarkIcon'
+import { COLOR_MAIN, FONT_WEIGHT_NORMAL } from '@/variables'
 import * as CheckboxRadix from '@radix-ui/react-checkbox'
 import { CheckboxProps, CheckedState } from '@radix-ui/react-checkbox'
 import styled from 'styled-components'
 
 type CheckboxType = {
   checked?: CheckedState
-  className?: string
   defaultChecked?: CheckedState
   id?: string
   label?: string | undefined
-  onValueChange?: (checked: boolean) => void
 } & CheckboxProps
 
 export const Checkbox = forwardRef<ElementRef<typeof CheckboxRadix.Root>, CheckboxType>(
-  ({ className, id = 'checkbox', label, ...rest }, ref) => {
+  ({ id = 'checkbox', label, ...rest }, ref) => {
     return (
       <Wrapper>
         <Root ref={ref} {...rest} id={id}>
@@ -67,6 +65,7 @@ const Wrapper = styled.div`
 `
 const Label = styled.label`
   margin-left: 8px;
-  font-weight: ${FONT_WEIGHT_MEDIUM};
+  font-weight: ${FONT_WEIGHT_NORMAL};
+
   cursor: pointer;
 `

@@ -4,7 +4,8 @@ export const COLOR_WHITE = `#FFFFFF`
 export const COLOR_BLACK = `#2E2E36`
 export const COLOR_MAIN = `#228B62`
 export const COLOR_RED = `#FF4B24`
-export const COLOR_GRAY_LIGHT = `#fdfdfd`
+export const COLOR_GRAY_LIGHT = `#D8DDED`
+export const COLOR_GRAY_LIGHT_SECOND = `#fdfdfd`
 
 // font size
 export const FONTSIZE_XS = `10px`
