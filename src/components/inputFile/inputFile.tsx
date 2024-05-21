@@ -49,7 +49,6 @@ export const InputFile = memo(
 
         return
       }
-      console.log(file)
       setFile(file)
       setDate(formatDate(file.lastModified))
     }

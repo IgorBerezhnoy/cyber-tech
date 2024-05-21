@@ -1,1 +1,1 @@
-export { OntrolledSelect } from './сontrolledSelect'
+export { ControlledSelect } from './сontrolledSelect'

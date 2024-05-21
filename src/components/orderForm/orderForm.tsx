@@ -23,7 +23,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import styled from 'styled-components'
 
 export const OrderForm = memo(() => {
-  const { control, handleSubmit } = useForm<SchemaOrderType>({
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<SchemaOrderType>({
     resolver: zodResolver(schemaOrder),
   })
   const [finalSum, setFinalSum] = useState('0')
@@ -31,7 +35,6 @@ export const OrderForm = memo(() => {
     if (data.sum) {
       setFinalSum(formatNumber(+data.sum * 1.2))
     }
-    console.log(data)
   })
 
   return (
@@ -45,7 +48,7 @@ export const OrderForm = memo(() => {
       <ControlledTextField control={control} {...comment} />
       <ControlledInputFile control={control} {...file} />
       <FinalSum finalSum={finalSum} />
-      <Button>Отправить</Button>
+      <Button disabled={Object.keys(errors).length > 0}>Отправить</Button>
     </Form>
   )
 })

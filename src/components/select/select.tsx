@@ -8,6 +8,7 @@ import {
   COLOR_GRAY,
   COLOR_GRAY_LIGHT_SECOND,
   COLOR_MAIN,
+  COLOR_RED,
   COLOR_WHITE,
   FONT_FAMILY,
   FONT_WEIGHT_MEDIUM_PLUS,
@@ -38,7 +39,6 @@ export const Select = memo(
     return (
       <div>
         {label && <Label>{label}</Label>}
-        {errorMessage && <>{errorMessage}</>}
         <SelectRadix.Root {...rest} onOpenChange={setIsOpen}>
           <Trigger>
             <Value placeholder={placeholder} />
@@ -58,6 +58,7 @@ export const Select = memo(
             </Content>
           </SelectRadix.Portal>
         </SelectRadix.Root>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       </div>
     )
   }
@@ -104,4 +105,10 @@ const Viewport = styled(SelectRadix.Viewport)`
 `
 const Value = styled(SelectRadix.Value)`
   color: red;
+`
+const ErrorMessage = styled.div`
+  margin-top: 8px;
+  font-size: ${FONTSIZE_M};
+  color: ${COLOR_RED};
+  line-height: ${LINE_HEIGHT_M};
 `

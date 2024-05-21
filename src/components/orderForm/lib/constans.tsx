@@ -57,11 +57,11 @@ export const category = {
   ),
   name: 'category' as const,
   options: [
-    { title: 'Категория 1', value: '1' },
-    { title: 'Категория 2', value: '2' },
-    { title: 'Категория 3', value: '3' },
-    { title: 'Категория 4', value: '4' },
-    { title: 'Категория 5', value: '5' },
+    { title: 'Категория 1', value: 'Категория 1' },
+    { title: 'Категория 2', value: 'Категория 2' },
+    { title: 'Категория 3', value: 'Категория 3' },
+    { title: 'Категория 4', value: 'Категория 4' },
+    { title: 'Категория 5', value: 'Категория 5' },
   ],
   placeholder: <Span>Выбрать</Span>,
 }
