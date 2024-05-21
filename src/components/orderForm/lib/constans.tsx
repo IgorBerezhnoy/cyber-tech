@@ -40,6 +40,7 @@ export const comment = {
   placeholder: 'Заполнить',
 }
 export const isAccreditation = {
+  id: 'isAccreditation',
   label: 'Имеется аккредитация',
   name: 'isAccreditation' as const,
 }
@@ -65,6 +66,7 @@ export const category = {
   placeholder: <Span>Выбрать</Span>,
 }
 export const file = {
+  id: 'file-input',
   label: (
     <>
       Нажмите на область или перетащите файлы сюда.
@@ -74,4 +76,5 @@ export const file = {
     </>
   ),
   labelOutside: 'Загрузить файл',
+  name: 'file' as const,
 }

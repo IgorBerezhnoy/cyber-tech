@@ -4,10 +4,12 @@ export const schemaOrder = z.object({
   category: z.string().optional(),
   comment: z.string().max(200).optional(),
   file: z
-    .object({
-      format: z.string().regex(/\.pdf$/),
-      size: z.number().max(5 * 1024 * 1024),
-    })
+    .any()
+    // // // .string()
+    // .object({
+    //   format: z.string().regex(/\.pdf$/),
+    //   size: z.number().max(5 * 1024 * 1024),
+    // })
     .optional(),
   fullName: z.string().min(10).max(30),
   isAccreditation: z.boolean().optional(),

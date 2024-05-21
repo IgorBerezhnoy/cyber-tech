@@ -15,6 +15,7 @@ import { formatDate } from '@/utils/formatDate'
 import {
   COLOR_GRAY,
   COLOR_GRAY_LIGHT,
+  COLOR_RED,
   COLOR_WHITE,
   FONT_WEIGHT_MEDIUM_PLUS,
   FONT_WEIGHT_NORMAL,
@@ -25,95 +26,114 @@ import styled from 'styled-components'
 
 import './index'
 
-type Props = {
+export type InputFileProps = {
+  errorMessage?: string
   label?: React.ReactNode
   labelOutside?: React.ReactNode
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-export const InputFile = memo(({ id = 'file-input', label, labelOutside, ...rest }: Props) => {
-  const [file, setFile] = useState<File | undefined>(undefined)
-  const fileInputRef = useRef(null)
-  const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    if (!e.target.files) {
-      return
-    }
-    const file = e.target.files[0]
+export const InputFile = memo(
+  ({ errorMessage, label, labelOutside, onChange, value, ...rest }: InputFileProps) => {
+    const [file, setFile] = useState<File | undefined>(undefined)
+    const [date, setDate] = useState<string>('')
+    const [error, setError] = useState<string>('')
+    const fileInputRef = useRef(null)
+    const setFileHandler = (file: File) => {
+      setError('')
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Файл слишком большой')
 
-    if (file) {
+        return
+      }
+      if (file.type !== 'application/pdf') {
+        setError('Только pdf')
+
+        return
+      }
+      console.log(file)
       setFile(file)
+      setDate(formatDate(file.lastModified))
     }
+    const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault()
+      if (!e.target.files) {
+        return
+      }
+      const file = e.target.files[0]
+
+      if (file) {
+        setFileHandler(file)
+      }
+    }
+
+    const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+      e.preventDefault()
+    }
+
+    const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+      e.preventDefault()
+      if (!e.dataTransfer.files) {
+        return
+      }
+      const file = e.dataTransfer.files[0]
+
+      if (file) {
+        setFileHandler(file)
+      }
+    }
+
+    const deleteFileHandler = () => setFile(undefined)
+
+    const handleLabelClick = (e: React.KeyboardEvent) => {
+      const current = fileInputRef.current as HTMLInputElement | null
+
+      if (!current) {
+        return
+      }
+      if (e.key === 'Enter' || e.key === ' ') {
+        current.click()
+      }
+    }
+
+    return (
+      <div>
+        {labelOutside && <LabelOutSide>{labelOutside}</LabelOutSide>}
+        {file ? (
+          <WrapperWithFile>
+            <IconWithText>
+              <FileIcon />
+              {file?.name}
+            </IconWithText>
+            <IconWithText>
+              {date}
+              <IconButton onClick={deleteFileHandler}>
+                <CrossIcon />
+              </IconButton>
+            </IconWithText>
+          </WrapperWithFile>
+        ) : (
+          <Wrapper
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+            onKeyDown={handleLabelClick}
+            tabIndex={0}
+          >
+            <Icon />
+            {label && <Label htmlFor={rest.id}>{label}</Label>}
+            <File
+              accept={'.pdf'}
+              onChange={handleFileUpload}
+              ref={fileInputRef}
+              type={'file'}
+              value={file}
+              {...rest}
+            />
+          </Wrapper>
+        )}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+      </div>
+    )
   }
-
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-  }
-
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    if (!e.dataTransfer.files) {
-      return
-    }
-    const file = e.dataTransfer.files[0]
-
-    if (file) {
-      setFile(file)
-    }
-  }
-
-  const date = formatDate(Date.now())
-
-  const deleteFileHandler = () => setFile(undefined)
-
-  const handleLabelClick = (e: React.KeyboardEvent) => {
-    const current = fileInputRef.current as HTMLInputElement | null
-
-    if (!current) {
-      return
-    }
-    if (e.key === 'Enter' || e.key === ' ') {
-      current.click()
-    }
-  }
-
-  return (
-    <div>
-      {labelOutside && <LabelOutSide>{labelOutside}</LabelOutSide>}
-      {file ? (
-        <WrapperWithFile>
-          <IconWithText>
-            <FileIcon />
-            {file?.name}
-          </IconWithText>
-          <IconWithText>
-            {date}
-            <IconButton onClick={deleteFileHandler}>
-              <CrossIcon />
-            </IconButton>
-          </IconWithText>
-        </WrapperWithFile>
-      ) : (
-        <Wrapper
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          onKeyDown={handleLabelClick}
-          tabIndex={0}
-        >
-          <Icon />
-          {label && <Label htmlFor={id}>{label}</Label>}
-          <File
-            accept={'.pdf'}
-            id={id}
-            onChange={handleFileUpload}
-            ref={fileInputRef}
-            type={'file'}
-            value={file}
-            {...rest}
-          />
-        </Wrapper>
-      )}
-    </div>
-  )
-})
+)
 
 const Wrapper = styled.div`
   display: flex;
@@ -174,4 +194,10 @@ const WrapperWithFile = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`
+const ErrorMessage = styled.div`
+  margin-top: 8px;
+  font-size: ${FONTSIZE_M};
+  color: ${COLOR_RED};
+  line-height: ${LINE_HEIGHT_M};
 `

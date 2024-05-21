@@ -1,10 +1,8 @@
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/button'
-import { Checkbox } from '@/components/checkbox'
 import { FinalSum } from '@/components/finalSum'
-import { InputFile } from '@/components/inputFile/inputFile'
 import {
   category,
   comment,
@@ -14,6 +12,8 @@ import {
   rating,
   sum,
 } from '@/components/orderForm/lib/constans'
+import { ControlledCheckbox } from '@/controlled/controlledCheckbox'
+import { ControlledInputFile } from '@/controlled/controlledInputFile'
 import { ControlledTextField } from '@/controlled/controlledTextField'
 import { ControlledSelect } from '@/controlled/сontrolledSelect/сontrolledSelect'
 import { formatNumber } from '@/utils'
@@ -26,7 +26,11 @@ export const OrderForm = memo(() => {
   const { control, handleSubmit } = useForm<SchemaOrderType>({
     resolver: zodResolver(schemaOrder),
   })
+  const [finalSum, setFinalSum] = useState('0')
   const onSubmitHandler = handleSubmit((data: SchemaOrderType) => {
+    if (data.sum) {
+      setFinalSum(formatNumber(+data.sum * 1.2))
+    }
     console.log(data)
   })
 
@@ -35,12 +39,12 @@ export const OrderForm = memo(() => {
       <Header>Заполните форму</Header>
       <ControlledTextField control={control} {...fullName} />
       <ControlledTextField control={control} {...rating} />
-      <Checkbox {...isAccreditation} />
+      <ControlledCheckbox control={control} {...isAccreditation} />
       <ControlledTextField control={control} {...sum} />
       <ControlledSelect control={control} {...category} />
       <ControlledTextField control={control} {...comment} />
-      <InputFile {...file} />
-      <FinalSum finalSum={formatNumber(41455.2)} />
+      <ControlledInputFile control={control} {...file} />
+      <FinalSum finalSum={finalSum} />
       <Button>Отправить</Button>
     </Form>
   )

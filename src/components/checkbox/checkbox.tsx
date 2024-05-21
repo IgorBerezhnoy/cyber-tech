@@ -15,17 +15,18 @@ type CheckboxType = {
 
 export const Checkbox = memo(
   forwardRef<ElementRef<typeof CheckboxRadix.Root>, CheckboxType>(
-    ({ id = 'checkbox', label, ...rest }, ref) => {
+    ({ label, onChange, ...rest }, ref) => {
       return (
         <Wrapper>
-          <Root ref={ref} {...rest} id={id}>
+          {/*// @ts-ignore*/}
+          <Root ref={ref} {...rest} onCheckedChange={onChange}>
             <CheckboxRadix.Indicator>
               <IconWrapper>
                 <CheckMarkIcon />
               </IconWrapper>
             </CheckboxRadix.Indicator>
           </Root>
-          {label && <Label htmlFor={id}>{label}</Label>}
+          {label && <Label htmlFor={rest.id}>{label}</Label>}
         </Wrapper>
       )
     }
