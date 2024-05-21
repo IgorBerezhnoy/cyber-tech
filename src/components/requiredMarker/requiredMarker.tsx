@@ -1,4 +1,4 @@
-import { COLOR_RED, FONT_WEIGHT_MEDIUM_PLUS, FONTSIZE_L, FONTSIZE_M } from '@/variables'
+import { COLOR_RED, FONT_WEIGHT_MEDIUM_PLUS, FONTSIZE_M } from '@/variables'
 import styled from 'styled-components'
 
 export const RequiredMarker = () => {

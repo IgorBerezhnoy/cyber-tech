@@ -1,3 +1,5 @@
+export * as DownArrowIcon from './DownArrowIcon'
+export * as UpArrowIcon from './UpArrowIcon'
 export * as CheckMarkIcon from './checkMarkIcon'
 export * as CloudIcon from './cloudIcon'
 export * as CrossIcon from './crossIcon'

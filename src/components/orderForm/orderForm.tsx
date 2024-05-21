@@ -2,6 +2,7 @@ import { Button } from '@/components/button'
 import { Checkbox } from '@/components/checkbox'
 import { InputFile } from '@/components/inputFile/inputFile'
 import { category, comment, fullName, rating, sum } from '@/components/orderForm/lib/constans'
+import { Select } from '@/components/select'
 import { TextField } from '@/components/textField'
 import { COLOR_BLACK, FONT_WEIGHT_MEDIUM_PLUS, FONTSIZE_XXL, LINE_HEIGHT_L } from '@/variables'
 import styled from 'styled-components'
@@ -14,6 +15,15 @@ export const OrderForm = () => {
       <TextField {...rating} />
       <Checkbox label={'Имеется аккредитация'} />
       <TextField {...sum} />
+      <Select
+        label={'Тип аккредитации'}
+        options={[
+          { title: 'Без аккредитации', value: '1' },
+          { title: 'С аккредитацией', value: '2' },
+          { title: 'С несколькими аккредитацией', value: '3' },
+        ]}
+        placeholder={'Не выбрано'}
+      />
       <TextField {...category} />
       <TextField {...comment} />
 
@@ -34,7 +44,7 @@ export const OrderForm = () => {
   )
 }
 
-const Form = styled.form`
+const Form = styled.div`
   display: flex;
   flex-direction: column;
   gap: 21px;

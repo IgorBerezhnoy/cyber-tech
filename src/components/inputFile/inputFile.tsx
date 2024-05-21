@@ -3,6 +3,7 @@ import React, {
   DetailedHTMLProps,
   DragEvent,
   InputHTMLAttributes,
+  useRef,
   useState,
 } from 'react'
 
@@ -21,7 +22,7 @@ import {
 } from '@/variables'
 import styled from 'styled-components'
 
-import './index.css'
+import './index'
 
 type Props = {
   label?: React.ReactNode
@@ -29,7 +30,7 @@ type Props = {
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 export const InputFile = ({ id = 'file-input', label, labelOutside, ...rest }: Props) => {
   const [file, setFile] = useState<File | undefined>(undefined)
-
+  const fileInputRef = useRef(null)
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     if (!e.target.files) {
@@ -39,8 +40,6 @@ export const InputFile = ({ id = 'file-input', label, labelOutside, ...rest }: P
 
     if (file) {
       setFile(file)
-      // Здесь можно добавить логику для загрузки файла
-      console.log('Выбранный файл:', file)
     }
   }
 
@@ -57,14 +56,23 @@ export const InputFile = ({ id = 'file-input', label, labelOutside, ...rest }: P
 
     if (file) {
       setFile(file)
-      // Здесь можно добавить логику для загрузки файла
-      console.log('Перетащенный файл:', file)
     }
   }
 
   const date = formatDate(Date.now())
 
   const deleteFileHandler = () => setFile(undefined)
+
+  const handleLabelClick = (e: React.KeyboardEvent) => {
+    const current = fileInputRef.current as HTMLInputElement | null
+
+    if (!current) {
+      return
+    }
+    if (e.key === 'Enter' || e.key === ' ') {
+      current.click()
+    }
+  }
 
   return (
     <div>
@@ -85,11 +93,16 @@ export const InputFile = ({ id = 'file-input', label, labelOutside, ...rest }: P
       ) : (
         <Wrapper onDragOver={handleDragOver} onDrop={handleDrop}>
           <Icon />
-          {label && <Label htmlFor={id}>{label}</Label>}
+          {label && (
+            <Label htmlFor={id} onKeyDown={handleLabelClick} tabIndex={0}>
+              {label}
+            </Label>
+          )}
           <File
             accept={'.pdf'}
             id={id}
             onChange={handleFileUpload}
+            ref={fileInputRef}
             type={'file'}
             value={file}
             {...rest}
@@ -100,30 +113,6 @@ export const InputFile = ({ id = 'file-input', label, labelOutside, ...rest }: P
   )
 }
 
-const Icon = styled(CloudIcon)`
-  margin-bottom: 13px;
-`
-const IconButton = styled.button`
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-`
-const IconWithText = styled.span`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`
-const WrapperWithFile = styled.div`
-  padding: 12px 16px;
-  background: ${COLOR_WHITE};
-  border-radius: 8px;
-  color: ${COLOR_GRAY};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -149,4 +138,38 @@ const Label = styled.label`
 `
 const File = styled.input`
   display: none;
+`
+const Icon = styled(CloudIcon)`
+  margin-bottom: 13px;
+`
+const IconButton = styled.button`
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  margin: 0 0 0 8px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    svg {
+      fill: #9f3834ff;
+    }
+  }
+`
+const IconWithText = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`
+const WrapperWithFile = styled.div`
+  padding: 12px 16px;
+  background: ${COLOR_WHITE};
+  border-radius: 8px;
+  color: ${COLOR_GRAY};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
