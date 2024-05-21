@@ -2,6 +2,7 @@ import { memo } from 'react'
 
 import { Button } from '@/components/button'
 import { Checkbox } from '@/components/checkbox'
+import { FinalSum } from '@/components/finalSum'
 import { InputFile } from '@/components/inputFile/inputFile'
 import {
   category,
@@ -14,6 +15,7 @@ import {
 } from '@/components/orderForm/lib/constans'
 import { Select } from '@/components/select'
 import { TextField } from '@/components/textField'
+import { formatNumber } from '@/utils'
 import { COLOR_BLACK, FONT_WEIGHT_MEDIUM_PLUS, FONTSIZE_XXL, LINE_HEIGHT_L } from '@/variables'
 import styled from 'styled-components'
 
@@ -28,6 +30,7 @@ export const OrderForm = memo(() => {
       <Select {...category} />
       <TextField {...comment} />
       <InputFile {...file} />
+      <FinalSum finalSum={formatNumber(41455.2)} />
       <Button disabled>Отправить</Button>
     </Form>
   )
