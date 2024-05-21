@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, ReactNode } from 'react'
+import { ComponentPropsWithoutRef, ReactNode, memo } from 'react'
 
 import { COLOR_GRAY_LIGHT } from '@/variables'
 import * as SelectRadix from '@radix-ui/react-select'
@@ -9,13 +9,13 @@ export type SelectItemProps = {
   className?: string
 } & ComponentPropsWithoutRef<typeof SelectRadix.Item>
 
-export const SelectItem = ({ children, className, ...props }: SelectItemProps) => {
+export const SelectItem = memo(({ children, className, ...props }: SelectItemProps) => {
   return (
     <Item {...props}>
       <SelectRadix.ItemText>{children}</SelectRadix.ItemText>
     </Item>
   )
-}
+})
 const Item = styled(SelectRadix.Item)`
   width: 402px;
   padding: 12px;

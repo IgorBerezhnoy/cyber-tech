@@ -3,6 +3,7 @@ import React, {
   DetailedHTMLProps,
   DragEvent,
   InputHTMLAttributes,
+  memo,
   useRef,
   useState,
 } from 'react'
@@ -28,7 +29,7 @@ type Props = {
   label?: React.ReactNode
   labelOutside?: React.ReactNode
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-export const InputFile = ({ id = 'file-input', label, labelOutside, ...rest }: Props) => {
+export const InputFile = memo(({ id = 'file-input', label, labelOutside, ...rest }: Props) => {
   const [file, setFile] = useState<File | undefined>(undefined)
   const fileInputRef = useRef(null)
   const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -91,13 +92,14 @@ export const InputFile = ({ id = 'file-input', label, labelOutside, ...rest }: P
           </IconWithText>
         </WrapperWithFile>
       ) : (
-        <Wrapper onDragOver={handleDragOver} onDrop={handleDrop}>
+        <Wrapper
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          onKeyDown={handleLabelClick}
+          tabIndex={0}
+        >
           <Icon />
-          {label && (
-            <Label htmlFor={id} onKeyDown={handleLabelClick} tabIndex={0}>
-              {label}
-            </Label>
-          )}
+          {label && <Label htmlFor={id}>{label}</Label>}
           <File
             accept={'.pdf'}
             id={id}
@@ -111,7 +113,7 @@ export const InputFile = ({ id = 'file-input', label, labelOutside, ...rest }: P
       )}
     </div>
   )
-}
+})
 
 const Wrapper = styled.div`
   display: flex;

@@ -1,4 +1,4 @@
-import React, { DetailedHTMLProps, ElementRef, InputHTMLAttributes, forwardRef } from 'react'
+import React, { DetailedHTMLProps, ElementRef, InputHTMLAttributes, forwardRef, memo } from 'react'
 
 import {
   COLOR_BLACK,
@@ -22,20 +22,22 @@ type TextFieldProps = {
   label?: React.ReactNode
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
-export const TextField = forwardRef<ElementRef<'input'>, TextFieldProps>(
-  ({ className, classNameWrapper, disabled, errorMessage, label, ...rest }, ref) => {
-    return (
-      <Wrapper className={classNameWrapper ?? ''}>
-        {label && <Label htmlFor={rest.id}>{label}</Label>}
-        {!errorMessage ? (
-          <Input disabled={disabled} {...rest} id={rest.id} ref={ref} />
-        ) : (
-          <InputError disabled={disabled} {...rest} ref={ref} />
-        )}
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      </Wrapper>
-    )
-  }
+export const TextField = memo(
+  forwardRef<ElementRef<'input'>, TextFieldProps>(
+    ({ className, classNameWrapper, disabled, errorMessage, label, ...rest }, ref) => {
+      return (
+        <Wrapper className={classNameWrapper ?? ''}>
+          {label && <Label htmlFor={rest.id}>{label}</Label>}
+          {!errorMessage ? (
+            <Input disabled={disabled} {...rest} id={rest.id} ref={ref} />
+          ) : (
+            <InputError disabled={disabled} {...rest} ref={ref} />
+          )}
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        </Wrapper>
+      )
+    }
+  )
 )
 
 const Wrapper = styled.div`

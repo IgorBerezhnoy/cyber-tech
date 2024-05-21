@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, ReactNode, useState } from 'react'
+import { ComponentPropsWithoutRef, ReactNode, memo, useState } from 'react'
 
 import DownArrowIcon from '@/assets/icons/DownArrowIcon'
 import UpArrowIcon from '@/assets/icons/UpArrowIcon'
@@ -25,18 +25,18 @@ export type OptionsValue = {
 }
 
 export type SelectProps = {
-  label?: string
+  label?: ReactNode
   options?: OptionsValue[]
   placeholder?: ReactNode
 } & ComponentPropsWithoutRef<typeof SelectRadix.Root>
 
-export const Select = ({ label, options, placeholder }: SelectProps) => {
+export const Select = memo(({ label, options, placeholder }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <div>
       {label && <Label>{label}</Label>}
-      <SelectRadix.Root defaultOpen onOpenChange={setIsOpen}>
+      <SelectRadix.Root onOpenChange={setIsOpen}>
         <Trigger>
           <Value placeholder={placeholder} />
           <SelectRadix.Icon>{isOpen ? <UpArrowIcon /> : <DownArrowIcon />}</SelectRadix.Icon>
@@ -57,7 +57,7 @@ export const Select = ({ label, options, placeholder }: SelectProps) => {
       </SelectRadix.Root>
     </div>
   )
-}
+})
 const Label = styled.div`
   font-size: ${FONTSIZE_M};
   line-height: ${LINE_HEIGHT_M};

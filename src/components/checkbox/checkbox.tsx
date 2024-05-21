@@ -1,4 +1,4 @@
-import { ElementRef, forwardRef } from 'react'
+import { ElementRef, forwardRef, memo } from 'react'
 
 import CheckMarkIcon from '@/assets/icons/checkMarkIcon'
 import { COLOR_MAIN, FONT_WEIGHT_NORMAL } from '@/variables'
@@ -13,21 +13,23 @@ type CheckboxType = {
   label?: string | undefined
 } & CheckboxProps
 
-export const Checkbox = forwardRef<ElementRef<typeof CheckboxRadix.Root>, CheckboxType>(
-  ({ id = 'checkbox', label, ...rest }, ref) => {
-    return (
-      <Wrapper>
-        <Root ref={ref} {...rest} id={id}>
-          <CheckboxRadix.Indicator>
-            <IconWrapper>
-              <CheckMarkIcon />
-            </IconWrapper>
-          </CheckboxRadix.Indicator>
-        </Root>
-        {label && <Label htmlFor={id}>{label}</Label>}
-      </Wrapper>
-    )
-  }
+export const Checkbox = memo(
+  forwardRef<ElementRef<typeof CheckboxRadix.Root>, CheckboxType>(
+    ({ id = 'checkbox', label, ...rest }, ref) => {
+      return (
+        <Wrapper>
+          <Root ref={ref} {...rest} id={id}>
+            <CheckboxRadix.Indicator>
+              <IconWrapper>
+                <CheckMarkIcon />
+              </IconWrapper>
+            </CheckboxRadix.Indicator>
+          </Root>
+          {label && <Label htmlFor={id}>{label}</Label>}
+        </Wrapper>
+      )
+    }
+  )
 )
 
 const Root = styled(CheckboxRadix.Root)`

@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
+import { ButtonHTMLAttributes, DetailedHTMLProps, memo } from 'react'
 
 import {
   COLOR_BLACK,
@@ -15,9 +15,9 @@ export type ButtonStyle = {} & DetailedHTMLProps<
   HTMLButtonElement
 >
 
-export const Button = ({ ...rest }: ButtonStyle) => {
+export const Button = memo(({ ...rest }: ButtonStyle) => {
   return <ButtonStyle {...rest} />
-}
+})
 const ButtonStyle = styled.button`
   background: ${COLOR_MAIN};
   border: none;
@@ -33,9 +33,11 @@ const ButtonStyle = styled.button`
   &:hover {
     opacity: 0.8;
   }
+
   &:active {
     background: ${COLOR_BLACK};
   }
+
   &:disabled {
     background: ${COLOR_GRAY};
 
