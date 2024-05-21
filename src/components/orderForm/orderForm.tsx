@@ -35,6 +35,7 @@ export const OrderForm = memo(() => {
     if (data.sum) {
       setFinalSum(formatNumber(+data.sum * 1.2))
     }
+    alert('Форма успешно отправлена')
   })
 
   return (
