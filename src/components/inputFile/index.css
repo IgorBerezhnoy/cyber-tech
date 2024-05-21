@@ -1,0 +1,19 @@
+.file-uploader {
+  cursor: pointer;
+
+  height: 200px;
+
+  border-radius: 5px;
+}
+
+.file-uploader.dragover {
+  border-color: #007bff;
+}
+
+.file-uploader.file-uploaded {
+  border-color: #28a745;
+}
+
+.file-uploader.file-uploaded label {
+  display: none;
+}

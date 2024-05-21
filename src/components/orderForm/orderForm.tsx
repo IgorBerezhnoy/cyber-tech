@@ -1,4 +1,6 @@
+import { Button } from '@/components/button'
 import { Checkbox } from '@/components/checkbox'
+import { InputFile } from '@/components/inputFile/inputFile'
 import { category, comment, fullName, rating, sum } from '@/components/orderForm/lib/constans'
 import { TextField } from '@/components/textField'
 import { COLOR_BLACK, FONT_WEIGHT_MEDIUM_PLUS, FONTSIZE_XXL, LINE_HEIGHT_L } from '@/variables'
@@ -14,9 +16,24 @@ export const OrderForm = () => {
       <TextField {...sum} />
       <TextField {...category} />
       <TextField {...comment} />
+
+      <InputFile
+        label={
+          <>
+            Нажмите на область или перетащите файлы сюда.
+            <br />5 МБ максимальный размер <br />
+            <b>Выбрать файл</b> <br />
+            (pdf)
+          </>
+        }
+        labelOutside={'Загрузите файл'}
+      />
+      <Button>Отправить</Button>
+      <Button disabled>Отправить</Button>
     </Form>
   )
 }
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;

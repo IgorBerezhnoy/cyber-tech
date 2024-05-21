@@ -1,6 +1,13 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
 
-import { COLOR_GRAY, COLOR_MAIN, COLOR_WHITE, FONT_WEIGHT_MEDIUM, LINE_HEIGHT_L } from '@/variables'
+import {
+  COLOR_BLACK,
+  COLOR_GRAY,
+  COLOR_MAIN,
+  COLOR_WHITE,
+  FONT_WEIGHT_MEDIUM,
+  LINE_HEIGHT_L,
+} from '@/variables'
 import styled from 'styled-components'
 
 export type ButtonStyle = {} & DetailedHTMLProps<
@@ -22,10 +29,18 @@ const ButtonStyle = styled.button`
   text-align: center;
   cursor: pointer;
   color: ${COLOR_WHITE};
+
   &:hover {
     opacity: 0.8;
   }
+  &:active {
+    background: ${COLOR_BLACK};
+  }
   &:disabled {
     background: ${COLOR_GRAY};
+
+    &:hover {
+      opacity: 1;
+    }
   }
 `
