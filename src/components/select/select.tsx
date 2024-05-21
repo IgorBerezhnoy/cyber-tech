@@ -25,39 +25,43 @@ export type OptionsValue = {
 }
 
 export type SelectProps = {
+  errorMessage?: string
   label?: ReactNode
   options?: OptionsValue[]
   placeholder?: ReactNode
 } & ComponentPropsWithoutRef<typeof SelectRadix.Root>
 
-export const Select = memo(({ label, options, placeholder }: SelectProps) => {
-  const [isOpen, setIsOpen] = useState(false)
+export const Select = memo(
+  ({ errorMessage, label, options, placeholder, ...rest }: SelectProps) => {
+    const [isOpen, setIsOpen] = useState(false)
 
-  return (
-    <div>
-      {label && <Label>{label}</Label>}
-      <SelectRadix.Root onOpenChange={setIsOpen}>
-        <Trigger>
-          <Value placeholder={placeholder} />
-          <SelectRadix.Icon>{isOpen ? <UpArrowIcon /> : <DownArrowIcon />}</SelectRadix.Icon>
-        </Trigger>
-        <SelectRadix.Portal>
-          <Content position={'popper'}>
-            <Viewport>
-              <SelectRadix.Group>
-                {options?.map(option => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.title}
-                  </SelectItem>
-                ))}
-              </SelectRadix.Group>
-            </Viewport>
-          </Content>
-        </SelectRadix.Portal>
-      </SelectRadix.Root>
-    </div>
-  )
-})
+    return (
+      <div>
+        {label && <Label>{label}</Label>}
+        {errorMessage && <>{errorMessage}</>}
+        <SelectRadix.Root {...rest} onOpenChange={setIsOpen}>
+          <Trigger>
+            <Value placeholder={placeholder} />
+            <SelectRadix.Icon>{isOpen ? <UpArrowIcon /> : <DownArrowIcon />}</SelectRadix.Icon>
+          </Trigger>
+          <SelectRadix.Portal>
+            <Content position={'popper'}>
+              <Viewport>
+                <SelectRadix.Group>
+                  {options?.map(option => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.title}
+                    </SelectItem>
+                  ))}
+                </SelectRadix.Group>
+              </Viewport>
+            </Content>
+          </SelectRadix.Portal>
+        </SelectRadix.Root>
+      </div>
+    )
+  }
+)
 const Label = styled.div`
   font-size: ${FONTSIZE_M};
   line-height: ${LINE_HEIGHT_M};

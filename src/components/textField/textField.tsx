@@ -16,7 +16,7 @@ import {
 } from '@/variables'
 import styled from 'styled-components'
 
-type TextFieldProps = {
+export type TextFieldProps = {
   classNameWrapper?: string
   errorMessage?: string
   label?: React.ReactNode
@@ -24,15 +24,11 @@ type TextFieldProps = {
 
 export const TextField = memo(
   forwardRef<ElementRef<'input'>, TextFieldProps>(
-    ({ className, classNameWrapper, disabled, errorMessage, label, ...rest }, ref) => {
+    ({ className, classNameWrapper, errorMessage, label, ...rest }, ref) => {
       return (
         <Wrapper className={classNameWrapper ?? ''}>
           {label && <Label htmlFor={rest.id}>{label}</Label>}
-          {!errorMessage ? (
-            <Input disabled={disabled} {...rest} id={rest.id} ref={ref} />
-          ) : (
-            <InputError disabled={disabled} {...rest} ref={ref} />
-          )}
+          {!errorMessage ? <Input {...rest} ref={ref} /> : <InputError {...rest} ref={ref} />}
           {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
         </Wrapper>
       )
