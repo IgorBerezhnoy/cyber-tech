@@ -9,6 +9,7 @@ export const fullName = {
       <RequiredMarker />
     </>
   ),
+  name: 'fullName' as const,
   placeholder: 'Заполнить',
 }
 export const rating = {
@@ -18,6 +19,7 @@ export const rating = {
       <RequiredMarker />
     </>
   ),
+  name: 'rating' as const,
   placeholder: 'Введите значение от 1 до 100',
   type: 'number',
 }
@@ -28,16 +30,18 @@ export const sum = {
       <RequiredMarker />
     </>
   ),
+  name: 'sum' as const,
   placeholder: '0',
-  type: 'number',
 }
 
 export const comment = {
   label: 'Комментарий',
+  name: 'comment' as const,
   placeholder: 'Заполнить',
 }
-export const checkbox = {
+export const isAccreditation = {
   label: 'Имеется аккредитация',
+  name: 'isAccreditation' as const,
 }
 const Span = styled.span`
   color: ${COLOR_GRAY};
@@ -50,6 +54,7 @@ export const category = {
       <RequiredMarker />
     </>
   ),
+  name: 'category' as const,
   options: [
     { title: 'Категория 1', value: '1' },
     { title: 'Категория 2', value: '2' },

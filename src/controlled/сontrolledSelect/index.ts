@@ -1,0 +1,1 @@
+export { OntrolledSelect } from './сontrolledSelect'
